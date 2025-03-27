@@ -1,0 +1,31 @@
+/* Custom styles */
+body {
+  min-height: 100vh;
+}
+
+/* Add some padding to the bottom of the page */
+body > div {
+  padding-bottom: 60px;
+}
+
+/* Custom badge styles */
+.badge {
+  font-weight: 500;
+}
+
+/* Custom card styles */
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .d-flex {
+    flex-direction: column;
+    gap: 1rem !important;
+  }
+  
+  .text-end {
+    text-align: left !important;
+  }
+}
