@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
-import { 
-  Container, 
-  Card, 
-  Form, 
-  Button, 
-  Alert 
-} from 'react-bootstrap';
-import { UserPlus, Mail, Lock, User } from 'lucide-react';
+import React, { useState } from "react";
+import { Container, Card, Form, Button, Alert } from "react-bootstrap";
+import { UserPlus, Mail, Lock, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../utils";
 import { register } from "../../api/api";
-import { setRefresh } from '../../redux/dataSlice';
-import { useDispatch } from 'react-redux';
+import { setRefresh } from "../../redux/dataSlice";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -51,8 +45,9 @@ const Register = () => {
 
       localStorage.setItem("token", data.data.token);
       setSuccess(true);
-       navigate("/dashboard");
-       dispatch(setRefresh({ refresh: true }));
+
+      dispatch(setRefresh({ refresh: true }));
+      navigate("/dashboard");
     } catch (err) {
       console.error("Registration error:", err);
       setApiError(err.message);
