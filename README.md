@@ -8,7 +8,7 @@ Frontend Setup (Vite)
 
 Navigate to the frontend directory:
 
-cd frontend
+cd Frontend
 
 Install dependencies:
 
@@ -28,7 +28,7 @@ Steps to Run the Backend
 
 Navigate to the backend directory:
 
-cd backend
+cd Backend
 
 Install dependencies:
 
