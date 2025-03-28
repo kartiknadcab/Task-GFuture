@@ -112,11 +112,7 @@ const Login = () => {
               <Form.Control.Feedback type="invalid">
                 {errors.password}
               </Form.Control.Feedback>
-              <Form.Text className="text-muted">
-                <Link to="/forgot-password" className="text-primary">
-                  Forgot Password?
-                </Link>
-              </Form.Text>
+             
             </Form.Group>
 
             <Button
