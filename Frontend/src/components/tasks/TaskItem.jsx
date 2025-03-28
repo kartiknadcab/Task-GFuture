@@ -1,6 +1,6 @@
 import { Card, Badge, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { formatDate, getPriorityColor, getStatusColor } from '../../utils';
+import {  getPriorityColor, getStatusColor } from '../../utils';
 
 const TaskItem = ({ task, onDelete, onEdit }) => {
   return (

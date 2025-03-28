@@ -1,28 +1,30 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import Layout from "./components/Layout";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Dashboard from "./pages/Dashboard";
 import ProjectDetails from "./pages/ProjectDetails";
 import TaskDetails from "./pages/TaskDetails";
-import PrivateRoute from "./components/PrivateRoute";
 import { getMe } from "./api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData, setUserExist } from "./redux/dataSlice";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const { userExist ,refresh} = useSelector((state) => state.user.value);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
-  // Check authentication on initial load
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const token = localStorage.getItem("token");
         if (token) {
           const { data } = await getMe();
-          setUser(data);
+          dispatch(setUserData({ userData: data }));
+          if (data) {
+            dispatch(setUserExist({ userExist: true }));
+          }
         }
       } catch (err) {
         console.error(err);
@@ -33,45 +35,31 @@ function App() {
     };
 
     checkAuth();
-  }, []);
+  }, [dispatch ,refresh]);
 
-  const login = (userData, token) => {
-    localStorage.setItem("token", token);
-    setUser(userData);
-    navigate("/dashboard");
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-    navigate("/");
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Routes>
-      {/* <Route element={<Layout user={user} logout={logout} />}> */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login login={login} />} />
-        <Route path="/register" element={<Register login={login} />} />
-        <Route
-          path="/dashboard"
-          element={<PrivateRoute user={user} loading={loading} />}
-        >
-          <Route index element={<Dashboard user={user} />} />
-        </Route>
-        <Route
-          path="/projects/:id"
-          element={<PrivateRoute user={user} loading={loading} />}
-        >
-          <Route index element={<ProjectDetails user={user} />} />
-        </Route>
-        <Route
-          path="/tasks/:id"
-          element={<PrivateRoute user={user} loading={loading} />}
-        >
-          <Route index element={<TaskDetails user={user} />} />
-        </Route>
-      {/* </Route> */}
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/dashboard"
+        element={userExist ? <Dashboard /> : <Navigate to="/login" replace />}
+      />
+      <Route
+        path="/projects/:id"
+        element={
+          userExist ? <ProjectDetails /> : <Navigate to="/login" replace />
+        }
+      />
+      <Route
+        path="/tasks/:id"
+        element={userExist ? <TaskDetails /> : <Navigate to="/login" replace />}
+      />
     </Routes>
   );
 }

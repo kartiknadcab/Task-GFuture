@@ -102,7 +102,7 @@ const deleteProject = async (req, res) => {
     }
 
   
-    await Task.deleteMany({ project: req.params.id });
+    await Project.deleteMany({ project: req.params.id });
 
     res.json({ message: 'Project removed' });
   } catch (error) {

@@ -1,21 +1,17 @@
-// Format date
 export const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
   
-  // Validate email
   export const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
   
-  // Validate password
   export const validatePassword = (password) => {
     return password.length >= 6;
   };
   
-  // Get priority color
   export const getPriorityColor = (priority) => {
     switch (priority) {
       case 'high':
@@ -29,7 +25,6 @@ export const formatDate = (dateString) => {
     }
   };
   
-  // Get status color
   export const getStatusColor = (status) => {
     switch (status) {
       case 'completed':

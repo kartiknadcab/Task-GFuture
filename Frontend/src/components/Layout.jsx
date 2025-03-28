@@ -1,12 +1,10 @@
-import { Container } from 'react-bootstrap';
-import Navbar from './Navbar';
+import { Container } from "react-bootstrap";
+import Navbar from "./Navbar";
 
-const Layout = ({ user, logout, children }) => {
-  console.log(user, logout, children,"")
+const Layout = () => {
   return (
     <>
-      <Navbar user={user} logout={logout} />
-      <Container className="my-4">{children}</Container>
+      <Navbar />
     </>
   );
 };

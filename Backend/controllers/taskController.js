@@ -67,7 +67,7 @@ const getTask = async (req, res) => {
 
 const createTask = async (req, res) => {
   const { title, description, status, priority } = req.body;
-
+   console.log(title, description, status, priority,"TEST")
   if (!title || !description) {
     return res.status(400).json({ message: 'Please enter all required fields' });
   }
@@ -126,6 +126,7 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
+    console.log((req, res,"req, res"))
     const task = await Task.findOneAndDelete({
       _id: req.params.id,
       createdBy: req.user._id,
