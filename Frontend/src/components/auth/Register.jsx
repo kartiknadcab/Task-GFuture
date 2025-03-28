@@ -10,8 +10,12 @@ import { UserPlus, Mail, Lock, User } from 'lucide-react';
 import { Link, useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../utils";
 import { register } from "../../api/api";
+import { setRefresh } from '../../redux/dataSlice';
+import { useDispatch } from 'react-redux';
 
-const Register = ({ onLogin }) => {
+const Register = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -47,7 +51,8 @@ const Register = ({ onLogin }) => {
 
       localStorage.setItem("token", data.data.token);
       setSuccess(true);
-      navigate("/dashboard");
+       navigate("/dashboard");
+       dispatch(setRefresh({ refresh: true }));
     } catch (err) {
       console.error("Registration error:", err);
       setApiError(err.message);

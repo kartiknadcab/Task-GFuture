@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api";
+export const API_URL = "http://localhost:5000/api";
+export const Image_URL = "http://localhost:5000";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -26,10 +27,21 @@ export const getMe = () => api.get("/auth/me");
 export const getProjects = (page = 1, limit = 10) =>
   api.get(`/projects?page=${page}&limit=${limit}`);
 export const getProject = (id) => api.get(`/projects/${id}`);
-export const createProject = (projectData) =>
-  api.post("/projects", projectData);
-export const updateProject = (id, projectData) =>
-  api.put(`/projects/${id}`, projectData);
+export const createProject = (projectData) => {
+  return api.post("/projects", projectData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
+
+export const updateProject = (id, projectData) => {
+  return api.put(`/projects/${id}`, projectData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
 export const deleteProject = (id) => api.delete(`/projects/${id}`);
 
 export const getTasks = (projectId, page = 1, limit = 10, filters = {}) => {

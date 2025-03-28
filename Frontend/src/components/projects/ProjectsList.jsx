@@ -25,6 +25,8 @@ import {
   createProject,
   updateProject,
   deleteProject,
+  API_URL,
+  Image_URL,
 } from "../../api/api";
 
 const ProjectItem = ({ project, onDelete, onEdit, onView }) => {
@@ -44,7 +46,29 @@ const ProjectItem = ({ project, onDelete, onEdit, onView }) => {
     >
       <Card.Body className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
-          <Folder className="me-3 text-primary" size={24} />
+          {project.image ? (
+            <div
+              className="me-3"
+              style={{ width: "64px", height: "64px", overflow: "hidden" }}
+            >
+              <img
+                src={`${Image_URL}${project.image}`}
+                alt={project.name}
+                className="img-fluid rounded"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/placeholder-image.jpg";
+                }}
+              />
+            </div>
+          ) : (
+            <Folder className="me-3 text-primary" size={24} />
+          )}
           <div>
             <h5 className="mb-1">{project.name}</h5>
             <p className="text-muted mb-1">

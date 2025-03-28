@@ -1,43 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { 
-  Container, 
-  Spinner, 
-  Alert, 
-  Button, 
-  Card, 
-  Badge, 
-  Breadcrumb 
-} from 'react-bootstrap';
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Edit2, 
-  Folder, 
-  Clock, 
-  Info 
-} from 'lucide-react';
-import TasksList from '../components/tasks/TasksList';
-import { getProject } from '../api/api';
-import { formatDate } from '../utils';
-import DashNav from '../components/DashNav';
+import React, { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import {
+  Container,
+  Spinner,
+  Alert,
+  Button,
+  Card,
+  Badge,
+  Breadcrumb,
+} from "react-bootstrap";
+import { ArrowLeft, Calendar, Edit2, Folder, Clock, Info } from "lucide-react";
+import TasksList from "../components/tasks/TasksList";
+import { getProject, Image_URL } from "../api/api";
+import { formatDate } from "../utils";
+import DashNav from "../components/DashNav";
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchProject = async () => {
       try {
         setLoading(true);
-        setError('');
+        setError("");
         const { data } = await getProject(id);
         setProject(data);
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch project');
+        setError(err.response?.data?.message || "Failed to fetch project");
       } finally {
         setLoading(false);
       }
@@ -85,7 +78,7 @@ const ProjectDetails = () => {
 
   return (
     <div className="project-details-container">
-              <DashNav />
+      <DashNav />
 
       <Container>
         <Breadcrumb className="mt-3 mb-4">
@@ -96,17 +89,42 @@ const ProjectDetails = () => {
         <div className="project-header mb-4">
           <div className="d-flex justify-content-between align-items-center">
             <div>
+              {project.image ? (
+                <div
+                  className="me-3"
+                  style={{ width: "64px", height: "64px", overflow: "hidden" }}
+                >
+                  <img
+                    src={`${Image_URL}${project.image}`}
+                    alt={project.name}
+                    className="img-fluid rounded"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/placeholder-image.jpg";
+                    }}
+                  />
+                </div>
+              ) : (
+                <Folder className="me-3 text-primary" size={24} />
+              )}
               <h1 className="project-title">{project.title}</h1>
               <div className="project-meta d-flex align-items-center">
                 <Badge bg="light" text="dark" className="me-2">
                   <Folder size={16} className="me-1" /> Project
                 </Badge>
                 {project.status && (
-                  <Badge 
+                  <Badge
                     bg={
-                      project.status === 'completed' ? 'success' : 
-                      project.status === 'in-progress' ? 'primary' : 
-                      'secondary'
+                      project.status === "completed"
+                        ? "success"
+                        : project.status === "in-progress"
+                        ? "primary"
+                        : "secondary"
                     }
                   >
                     {project.status}
@@ -115,10 +133,9 @@ const ProjectDetails = () => {
               </div>
             </div>
             <div className="project-actions">
-            
-              <Button 
-                variant="outline-secondary" 
-                onClick={() => navigate('/dashboard')}
+              <Button
+                variant="outline-secondary"
+                onClick={() => navigate("/dashboard")}
               >
                 <ArrowLeft size={16} className="me-1" /> Back to Projects
               </Button>
@@ -132,23 +149,19 @@ const ProjectDetails = () => {
               <div className="col-12 col-md-8">
                 <h4 className="card-title mb-3">Project Description</h4>
                 <p className="project-description">
-                  {project.description || 'No description provided'}
+                  {project.description || "No description provided"}
                 </p>
               </div>
               <div className="col-12 col-md-4">
                 <div className="project-metadata">
                   <div className="metadata-item">
                     <Calendar size={18} className="me-2 text-muted" />
-                    <span>
-                      Created: {formatDate(project.createdAt)}
-                    </span>
+                    <span>Created: {formatDate(project.createdAt)}</span>
                   </div>
                   {project.updatedAt && (
                     <div className="metadata-item">
                       <Clock size={18} className="me-2 text-muted" />
-                      <span>
-                        Last Updated: {formatDate(project.updatedAt)}
-                      </span>
+                      <span>Last Updated: {formatDate(project.updatedAt)}</span>
                     </div>
                   )}
                 </div>

@@ -10,6 +10,9 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a description'],
   },
+  image: {
+    type: String, // This will store the path to the image
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -18,5 +21,4 @@ const projectSchema = new mongoose.Schema({
 }, {
   timestamps: true,
 });
-
 module.exports = mongoose.model('Project', projectSchema);
